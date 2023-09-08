@@ -1,0 +1,26 @@
+version: '3'
+services:
+  psql-db:
+    image: postgres
+    container_name: psql-db
+    restart: always
+    environment:
+      - POSTGRES_USER=ccapi
+      - POSTGRES_PASSWORD=ccapi_pass
+      - POSTGRES_DB=ccapi
+    ports:
+      - '5432:5432'
+
+  cc-api:
+    image: caju90/cc-api:latest
+    container_name: cc-api
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://psql-db:5432/ccapi
+      - POSTGRES_USERNAME=ccapi
+      - POSTGRES_PASSWORD=ccapi_pass
+      - SERVER_PORT=8080
+    ports:
+      - "8080:8080"
+      - "8787:8787"
+    depends_on:
+      - psql-db
