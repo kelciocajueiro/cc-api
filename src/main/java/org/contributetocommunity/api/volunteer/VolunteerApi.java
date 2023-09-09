@@ -40,6 +40,6 @@ public interface VolunteerApi {
             @Content(mediaType = MediaType.APPLICATION_XML_VALUE, schema = @Schema(implementation = VolunteerDTO.class))
     })
     @ApiResponse(responseCode = "204", description = "No Volunteers found")
-    Page<VolunteerJobDetailsDTO> getProducts(@ParameterObject Pageable pageable);
+    Page<VolunteerJobsDTO> getVolunteersWithJobs(@ParameterObject Pageable pageable);
 
 }

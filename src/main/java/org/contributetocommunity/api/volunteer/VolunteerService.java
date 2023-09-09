@@ -23,19 +23,20 @@ public class VolunteerService {
     public List<VolunteerDTO> findAll() {
         return volunteerRepository.findAll()
                 .stream()
-                .map(volunteerMapper::toDTO)
+                .map(volunteerMapper::toVolunteerDto)
                 .collect(Collectors.toList());
     }
 
     public List<VolunteerDTO> findByJobId(Long jobId) {
-        return volunteerRepository.findByJobId(jobId)
+        return volunteerRepository.findByJobs_Id(jobId)
                 .stream()
-                .map(volunteerMapper::toDTO)
+                .map(volunteerMapper::toVolunteerDto)
                 .collect(Collectors.toList());
     }
 
-    public Page<VolunteerJobDetailsDTO> findWithPositionDetails(Pageable pageable) {
-        return volunteerRepository.findWithPositionDetails(pageable);
+    public Page<VolunteerJobsDTO> findWithPositionDetails(Pageable pageable) {
+        return volunteerRepository.findAll(pageable)
+                .map(volunteerMapper::toVolunteerJobsDto);
     }
 
 }

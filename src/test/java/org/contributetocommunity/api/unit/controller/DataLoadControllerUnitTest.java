@@ -15,7 +15,6 @@ import java.io.IOException;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +36,6 @@ class DataLoadControllerUnitTest {
                         get("/v1/data-load")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON));
     }
@@ -54,7 +52,6 @@ class DataLoadControllerUnitTest {
                         get("/v1/data-load")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isInternalServerError());
     }
 

@@ -35,7 +35,7 @@ public class VolunteerController implements VolunteerApi {
     }
 
     @GetMapping("/jobs/details")
-    public Page<VolunteerJobDetailsDTO> getProducts(Pageable pageable) {
+    public Page<VolunteerJobsDTO> getVolunteersWithJobs(Pageable pageable) {
         return volunteerService.findWithPositionDetails(pageable);
     }
 

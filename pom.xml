@@ -251,7 +251,11 @@
                     <title>${project.artifactId}</title>
                     <excludes>
                         <exclude>org/contributetocommunity/api/*Application.*</exclude>
+                        <exclude>org/contributetocommunity/api/common/**</exclude>
                         <exclude>org/contributetocommunity/api/**/*DTO.*</exclude>
+                        <exclude>org/contributetocommunity/api/**/*DTOBuilder.*</exclude>
+                        <exclude>org/contributetocommunity/api/**/*Mapper.*</exclude>
+                        <exclude>org/contributetocommunity/api/**/*MapperImpl.*</exclude>
                         <exclude>org/contributetocommunity/api/**/*Api.*</exclude>
                         <exclude>org/contributetocommunity/api/**/*Config.*</exclude>
                     </excludes>

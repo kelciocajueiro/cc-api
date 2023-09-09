@@ -20,7 +20,7 @@ public class JobService {
 
     public List<JobDTO> findAll() {
         return jobRepository.findAll().stream()
-                .map(jobMapper::toDTO)
+                .map(jobMapper::toJobDto)
                 .collect(Collectors.toList());
     }
 

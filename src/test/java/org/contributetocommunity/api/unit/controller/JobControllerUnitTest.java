@@ -19,7 +19,6 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,7 +43,6 @@ class JobControllerUnitTest {
                         get("/v1/jobs")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$.[0].id", is(1)));
@@ -62,7 +60,6 @@ class JobControllerUnitTest {
                         get("/v1/jobs")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isNoContent());
     }
 

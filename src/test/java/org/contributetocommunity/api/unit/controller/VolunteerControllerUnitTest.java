@@ -2,7 +2,7 @@ package org.contributetocommunity.api.unit.controller;
 
 import org.contributetocommunity.api.volunteer.VolunteerController;
 import org.contributetocommunity.api.volunteer.VolunteerDTO;
-import org.contributetocommunity.api.volunteer.VolunteerJobDetailsDTO;
+import org.contributetocommunity.api.volunteer.VolunteerJobsDTO;
 import org.contributetocommunity.api.volunteer.VolunteerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,7 +49,6 @@ class VolunteerControllerUnitTest {
                         get("/v1/volunteers")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$.[0].id", is(1)))
@@ -69,7 +67,6 @@ class VolunteerControllerUnitTest {
                         get("/v1/volunteers")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isNoContent());
     }
 
@@ -85,7 +82,6 @@ class VolunteerControllerUnitTest {
                         get("/v1/volunteers/jobs/{jobId}", "1")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$.[0].id", is(1)))
@@ -104,7 +100,6 @@ class VolunteerControllerUnitTest {
                         get("/v1/volunteers/jobs/{jobId}", "1")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isNoContent());
     }
 
@@ -113,7 +108,7 @@ class VolunteerControllerUnitTest {
     @DisplayName("GET /v1/volunteers/jobs/details - Return all volunteers with job application details")
     void when_find_volunteers_with_details_should_return_result() throws Exception {
 
-        Page<VolunteerJobDetailsDTO> result = mock(Page.class);
+        Page<VolunteerJobsDTO> result = mock(Page.class);
 
         given(mockVolunteerService.findWithPositionDetails(ArgumentMatchers.isA(Pageable.class))).willReturn(result);
 
@@ -122,7 +117,6 @@ class VolunteerControllerUnitTest {
                         get("/v1/volunteers/jobs/details")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 

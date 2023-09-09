@@ -1,4 +1,4 @@
-package org.contributetocommunity.api.integration;
+package org.contributetocommunity.api.integration.mapper;
 
 import org.contributetocommunity.api.job.Job;
 import org.contributetocommunity.api.job.JobDTO;
@@ -19,6 +19,13 @@ class JobMapperIT {
     private JobMapper jobMapper;
 
     @Test
+    @DisplayName("Test if the Job Mapper returns null when param is null")
+    void check_if_job_mapper_returns_null() {
+        assertThat(jobMapper.toJobDto(null)).isNull();
+        assertThat(jobMapper.toEntity(null)).isNull();
+    }
+
+    @Test
     @DisplayName("Test if the Job Mapper converts an Entity to DTO")
     void check_if_job_mapper_converts_entity_to_dto() {
 
@@ -27,7 +34,7 @@ class JobMapperIT {
         job.setName("Front Desk");
         job.setDescription("Manage the front desk");
 
-        JobDTO dto = jobMapper.toDTO(job);
+        JobDTO dto = jobMapper.toJobDto(job);
 
         assertThat(job.getId()).isEqualTo(dto.getId());
         assertThat(job.getName()).isEqualTo(dto.getName());
