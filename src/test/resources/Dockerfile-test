@@ -1,0 +1,9 @@
+FROM postgres
+
+ENV POSTGRES_USER ccapi_user
+ENV POSTGRES_PASSWORD ccapi_pass
+ENV POSTGRES_DB ccapi
+
+COPY /dataset/db-dump.sql /docker-entrypoint-initdb.d/
+
+EXPOSE 5433
