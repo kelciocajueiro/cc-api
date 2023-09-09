@@ -24,6 +24,7 @@
         <apache-poi.version>5.2.3</apache-poi.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <mockito.version>5.2.0</mockito.version>
+        <snakeyaml.version>2.0</snakeyaml.version> <!-- Fix vulnerability -->
     </properties>
 
     <dependencies>
@@ -155,12 +156,6 @@
     <build>
         <finalName>cc-api</finalName>
 
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -208,23 +203,60 @@
             </plugin>
 
             <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- Force alphabetical order to have a reproducible build -->
+                    <runOrder>alphabetical</runOrder>
+                    <!-- Fixes a bug which will be solved in next version after 2.22.1
+                    then this can be removed see: https://issues.apache.org/jira/browse/SUREFIRE-1588 -->
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <skipTests>true</skipTests>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>unit-tests</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <includes>
+                                <include>**/*UnitTest.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
                 <configuration>
                     <title>${project.artifactId}</title>
                     <excludes>
-                        <exclude>com/ballys/api/*Application.*</exclude>
+                        <exclude>org/contributetocommunity/api/*Application.*</exclude>
+                        <exclude>org/contributetocommunity/api/**/*DTO.*</exclude>
+                        <exclude>org/contributetocommunity/api/**/*Api.*</exclude>
+                        <exclude>org/contributetocommunity/api/**/*Config.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
                     <execution>
                         <id>prepare-unit-test</id>
                         <goals>
@@ -232,21 +264,10 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>generate-unit-test-report</id>
+                        <id>report</id>
+                        <phase>test</phase>
                         <goals>
                             <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>prepare-integration-test-agent</id>
-                        <goals>
-                            <goal>prepare-agent-integration</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>generate-integration-test-report</id>
-                        <goals>
-                            <goal>report-integration</goal>
                         </goals>
                     </execution>
                 </executions>
